@@ -7,6 +7,7 @@ import PreloginScreen from "../screens/PreloginScreen";
 import AdminLanding from "../screens/AdminHomeScreen";
 import AdminMoreStats from "../screens/StatsScreen";
 
+
 const AuthNavigator = () => {
   const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const AuthNavigator = () => {
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Admin" component={ AdminLanding } />
       <Stack.Screen name="StatsScreen" component={AdminMoreStats} />
+      <Stack.Screen name="Auth" component={AuthNavigator} />
     </Stack.Navigator>
   );
 };

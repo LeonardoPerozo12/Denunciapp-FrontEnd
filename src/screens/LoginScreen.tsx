@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../Color";
 import GoBackBtn from "../components/GoBackBtn";
 import AuthInput from "../components/AuthInput";
-
+import * as SecureStore from 'expo-secure-store';
 
 
 
@@ -28,6 +28,7 @@ const LoginScreen = () => {
     lastname: "",
     email: "",
     password: "",
+    role: "",
   });
   const { setUser, setIsLoggedIn } = useAuthStore();
   const navigation = useNavigation();
@@ -56,14 +57,24 @@ const LoginScreen = () => {
       }
   
       const data = await response.json();
+      
+      await SecureStore.setItemAsync("jwt", data.token);
+
+
       setUser({
         id: data.id,
         name: data.name,
         lastname: data.lastname,
         email: data.email,
+        administrador: data.user.Administrador,
       });
       setIsLoggedIn(true);
-      navigation.navigate("Home");
+
+      if (data.user.Administrador) {
+        navigation.navigate("Admin"); // Change if your admin screen is named differently
+      } else {
+        navigation.navigate("Home");
+      }
     } catch (error: any) {
       console.error("Error:", error.message);
       alert(`Error: ${error.message}`);

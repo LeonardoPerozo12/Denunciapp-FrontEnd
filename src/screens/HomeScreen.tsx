@@ -16,10 +16,15 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/Types";
 import UniversalMap from "../components/MapComponent";
 import DropdownMenuScreen from "./DropdownMenuScreen";
+import DropdownMenuNoUser from "./DropDownMenuNoUser";
 
 const HomeScreen = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const { isLoggedIn } = useAuthStore(state => state); // Assuming 'isLoggedIn' is a boolean in your store
+  
+
 
   const toggleDropdown = () => setDropdownVisible((prev) => !prev);
 
@@ -33,6 +38,11 @@ const HomeScreen = () => {
     useAuthStore.getState().logout();
   };
 
+  const handleGoToLogin = () => {
+    setDropdownVisible(false);
+    navigation.navigate("Login");
+  };
+
   const handleDenunciaPress = () => {
     navigation.navigate("Chat");
   };
@@ -40,21 +50,25 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <Feather name="menu" size={34} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleDropdown}>
-            <Feather name="user" size={34} color="black" />
-          </TouchableOpacity>
-        </View>
 
-        <DropdownMenuScreen
-          visible={dropdownVisible}
-          onLogout={handleLogout}
-          onProfile={handleProfilePress}
-          position={{ onRight: 10, onTop: 40 }}
-        />
+      <View style={styles.dropdownWrapper}>
+          {isLoggedIn ? (
+            <DropdownMenuScreen
+              visible={dropdownVisible}
+              onLogout={handleLogout}
+              onProfile={handleProfilePress}
+              position={{ onRight: 10, onTop: 40 }}
+              toggleDropDown={toggleDropdown}
+            />
+          ) : (
+            <DropdownMenuNoUser
+              visible={dropdownVisible}
+              onLogin={handleGoToLogin}
+              position={{ onRight: 10, onTop: 40 }}
+              toggleDropDown={toggleDropdown}
+            />
+          )}
+        </View>
 
         <Text style={styles.title}>¡Denuncia Ya con Hector!</Text>
         <Text style={styles.subtitle}>
@@ -111,11 +125,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
+  dropdownWrapper: {
+    position: "absolute",  // Position the dropdown at the top level, above the scroll view
+    top: 0,
+    right: 0,
+    zIndex: 1000,  // Ensure dropdown is above other content
+  },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: "row", // Align items horizontally
+    justifyContent: "flex-start", // Align items to the left
+    alignItems: "center", // Center items vertically
     marginBottom: 40,
+    paddingLeft: 10, // Ensure some space from the left edge
   },
   title: {
     width: "65%",
