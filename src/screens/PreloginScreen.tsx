@@ -21,6 +21,9 @@ const PreloginScreen = () => {
   const handleLogin = () => {
     navigation.navigate("Login");
   };
+  const handleAdminPage = () => {
+    navigation.navigate("Admin");
+  };
   const handleContinueWithoutRegistering = () => {
     navigation.reset({
       index: 0,
@@ -72,6 +75,23 @@ const PreloginScreen = () => {
             marginTop: 10,
           }}
         />
+                <Button
+          title="Admin"
+          onPress={handleAdminPage}
+          backgroundColor={colors.secondary}
+          textColor={colors.primary}
+          style={{
+            shadowColor: colors.primary,
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            marginTop: 10,
+          }}
+          />
       </View>
     </View>
   );

@@ -15,19 +15,12 @@ import Button from "../components/Button";
 import useAuthStore from "../stores/AuthStore";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../Color";
+import GoBackBtn from "../components/GoBackBtn";
 import AuthInput from "../components/AuthInput";
 
 
 
-const GoBackBtn = () =>{
-  const navigation = useNavigation();
 
-  return(
-    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-      <Image source={require("../../assets/Arrow 1.png")}/>
-    </TouchableOpacity>
-  )
-}
 
 const LoginScreen = () => {
   const [userForm, setUserForm] = useState({
@@ -82,9 +75,7 @@ const LoginScreen = () => {
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View>
-        <GoBackBtn/>
-      </View>
+      <GoBackBtn/>
       <SafeAreaView style={styles.container}>
         <View style={styles.formContainer}>
           <AntDesign name="user" size={64} color={colors.primary} />
@@ -99,6 +90,7 @@ const LoginScreen = () => {
             <AuthInput
               label="Contraseña"
               placeholder="Contraseña"
+              secureTextEntry
               value={userForm.password}
               onChangeText={(text) => handleChange("password", text)}
             />

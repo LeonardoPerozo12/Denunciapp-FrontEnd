@@ -14,17 +14,9 @@ import Button from "../components/Button";
 import useAuthStore from "../stores/AuthStore";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../Color";
+import GoBackBtn from "../components/GoBackBtn";
 import AuthInput from "../components/AuthInput";
 
-const GoBackBtn = () =>{
-  const navigation = useNavigation();
-
-  return(
-    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-      <Image source={require("../../assets/Arrow 1.png")}/>
-    </TouchableOpacity>
-  )
-}
 
 
 const RegisterScreen = () => {
@@ -104,9 +96,9 @@ const RegisterScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
     >
-      <View>
-        <GoBackBtn/>
-      </View>
+      
+      <GoBackBtn/>
+     
       <SafeAreaView style={styles.container}>
         <View style={styles.formContainer}>
           <AntDesign name="user" size={64} color={colors.primary} />
